@@ -32,8 +32,8 @@ public:
 
 private:
 
-    s32 _num;
-    s32 _den;
+    s32 _numerator;
+    s32 _denominator;
 
     void reduce();
     s32 gcd(s32 a, s32 b);
