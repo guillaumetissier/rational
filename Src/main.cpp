@@ -1,5 +1,5 @@
 #include <phpcpp.h>
-#include <Rational.hpp>
+#include <PhpRational.hpp>
 
 /**
  *  tell the compiler that the get_module is a pure C function
@@ -15,8 +15,8 @@ extern "C" {
      */
     PHPCPP_EXPORT void *get_module()
     {
-        Php::Class<Rational> rational("Rational");
-        rational.method("add", &Rational::operator+=, {
+        Php::Class<PhpRational> rational("Rational");
+        /*rational.method("add", &Rational::operator+=, {
             Php::ByRef("r", "Rational")
         });
 
@@ -31,7 +31,7 @@ extern "C" {
         rational.method("div", &Rational::operator/=, {
             Php::ByRef("r", "Rational")
         });
-
+*/
         static Php::Extension extension("rational", "1.0");
         extension.add(std::move(rational));
 

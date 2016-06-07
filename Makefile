@@ -113,6 +113,9 @@ OBJECTS 			=	$(SOURCES:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
 
 #
 #   From here the build instructions start
+#   A recall:
+#   $< is the automatic variable that holds the name of the prerequisite
+#   $@ is the automatic variable that holds the name of the target
 #
 
 all:				${EXTENSION}

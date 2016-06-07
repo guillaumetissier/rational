@@ -1,17 +1,17 @@
 #include "Rational.hpp"
-#include <math>
+#include <cmath>
 
-Rational::Rational(s32 __numerator, s32 __denominator = 1)
+Rational::Rational(int32_t __numerator, int32_t __denominator)
 {
-    _numerator {__numerator};
-    _denominator {__denominator};
+    _numerator   = __numerator;
+    _denominator = __denominator;
     reduce();
 }
 
 Rational::Rational(const Rational& __rhs)
 {
-    _numerator {__rhs._numerator};
-    _denominator {__rhs._denominator};
+    _numerator   = __rhs._numerator;
+    _denominator = __rhs._denominator;
 }
 
 Rational::~Rational()
@@ -54,30 +54,30 @@ void Rational::operator/= (const Rational& __rhs)
 
 Rational& Rational::operator+ (const Rational& __rhs) const
 {
-    Rational result = *this;
-    result += __rhs;
-    return result;
+    Rational *pResult = new Rational(*this);
+    *pResult += __rhs;
+    return *pResult;
 }
 
 Rational& Rational::operator- (const Rational& __rhs) const
 {
-    Rational result = *this;
-    result -= __rhs;
-    return result;
+    Rational *pResult = new Rational(*this);
+    *pResult -= __rhs;
+    return *pResult;
 }
 
 Rational& Rational::operator* (const Rational& __rhs) const
 {
-    Rational result = *this;
-    result *= __rhs;
-    return result;
+    Rational *pResult = new Rational(*this);
+    *pResult *= __rhs;
+    return *pResult;
 }
 
 Rational& Rational::operator/ (const Rational& __rhs) const
 {
-    Rational result = *this;
-    result /= __rhs;
-    return result;
+    Rational *pResult = new Rational(*this);
+    *pResult /= __rhs;
+    return *pResult;
 }
 
 bool Rational::operator== (const Rational& __rhs) const
@@ -95,7 +95,7 @@ bool Rational::operator<= (const Rational& __rhs) const
     return (_numerator * __rhs._denominator <= _denominator * __rhs._numerator);    
 }
 
-bool Rational::operator<  (const Rational& __rhs) const
+bool Rational::operator< (const Rational& __rhs) const
 {
     return (_numerator * __rhs._denominator < _denominator * __rhs._numerator); 
 }
@@ -105,7 +105,7 @@ bool Rational::operator>= (const Rational& __rhs) const
     return (_numerator * __rhs._denominator >= _denominator * __rhs._numerator);
 }
 
-bool Rational::operator>  (const Rational& __rhs) const
+bool Rational::operator> (const Rational& __rhs) const
 {
     return (_numerator * __rhs._denominator > _denominator * __rhs._numerator);
 }
@@ -113,48 +113,56 @@ bool Rational::operator>  (const Rational& __rhs) const
 void Rational::reduce()
 {
     if (_denominator == 0) {
-        throw Php::Exception("Division by zero");
+        throw std::overflow_error("Divide by zero exception");
     }
     
-    s32 theGcd   = gcd(_numerator, _denominator);
-    _numerator   = abs(_numerator / theGcd) * sgn();
-    _denominator = abs(_denominator / theGcd);
+    int32_t theGcd   = gcd(_numerator, _denominator);
+    _numerator   = std::abs(_numerator / theGcd) * sgn();
+    _denominator = std::abs(_denominator / theGcd);
 }
 
-s32 Rational::gcd (s32 a, s32 b)
+int32_t Rational::gcd (int32_t a, int32_t b)
 {
     return (b == 0) ? a : gcd(b, a % b);
 }
 
-s32 Rational::sgn ()
+int32_t Rational::sgn ()
 {
-    return _numerator * _denominator / abs(_numerator * _denominator);
+    return _numerator * _denominator / std::abs(_numerator * _denominator);
 }
 
 Rational& operator+ (const Rational& __r1, const Rational& __r2)
 {
-    return __r1 + __r2;
+    Rational *pRational = new Rational(__r1);
+    *pRational += __r2;
+    return *pRational;
 }
 
 Rational& operator- (const Rational& __r1, const Rational& __r2)
 {
-    return __r1 - __r2;
+    Rational *pRational = new Rational(__r1);
+    *pRational -= __r2;
+    return *pRational;
 }
 
 Rational& operator* (const Rational& __r1, const Rational& __r2)
 {
-    return __r1 * __r2;
+    Rational *pRational = new Rational(__r1);
+    *pRational *= __r2;
+    return *pRational;
 }
 
 Rational& operator/ (const Rational& __r1, const Rational& __r2)
 {
-    return __r1 / __r2;
+    Rational *pRational = new Rational(__r1);
+    *pRational /= __r2;
+    return *pRational;
 }
 
-std::ostream& operator<< (std::ostream & out, const Rational & r) {
-    out << __rhs._numerator;
-    if (__rhs._denominator != 1) {
-        out << '/' << __rhs._denominator;
+std::ostream& operator<< (std::ostream & out, const Rational & __rhs) {
+    out << __rhs.numerator();
+    if (__rhs.denominator() != 1) {
+        out << '/' << __rhs.denominator();
     }
     return out;
 }

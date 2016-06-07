@@ -2,15 +2,17 @@
 #define __RATIONAL_HPP__
 
 #include <iostream>
-#include "types.hpp"
 
 class Rational
 {
 public:
 
-    Rational(s32 __numerator, s32 __denominator = 1);
-    Rational(const Rational& r)
+    Rational(int32_t __numerator, int32_t __denominator = 1);
+    Rational(const Rational& __rhs);
     ~Rational();
+
+    int32_t numerator()   const { return _numerator; };
+    int32_t denominator() const { return _denominator; };
 
     void operator=  (const Rational& __rhs);
     void operator+= (const Rational& __rhs);
@@ -32,12 +34,12 @@ public:
 
 private:
 
-    s32 _numerator;
-    s32 _denominator;
+    int32_t _numerator;
+    int32_t _denominator;
 
     void reduce();
-    s32 gcd(s32 a, s32 b);
-    s32 sgn();
+    int32_t gcd(int32_t a, int32_t b);
+    int32_t sgn();
 };
 
 Rational& operator+ (const Rational& __r1, const Rational& __r2);
