@@ -1,5 +1,6 @@
 #include "Rational.hpp"
 #include <cmath>
+#include <stdexcept>
 
 Rational::Rational(int32_t __numerator, int32_t __denominator)
 {

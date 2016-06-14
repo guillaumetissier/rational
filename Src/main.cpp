@@ -5,36 +5,47 @@
  *  tell the compiler that the get_module is a pure C function
  */
 extern "C" {
-
     /**
-     *  Function that is called by PHP right after the PHP process
-     *  has started, and that returns an address of an internal PHP
-     *  strucure with all the details and features of your extension
-     *
-     *  @return void*   a pointer to an address that is understood by PHP
+     *  Startup function that is called by the Zend engine 
+     *  to retrieve all information about the extension
+     *  @return void*
      */
-    PHPCPP_EXPORT void *get_module()
-    {
+    PHPCPP_EXPORT void *get_module() {
+        // create static instance of the extension object
+        static Php::Extension myExtension("rational", "1.0");
+
+        // description of the class so that PHP knows which methods are accessible
         Php::Class<PhpRational> rational("Rational");
-        /*rational.method("add", &Rational::operator+=, {
-            Php::ByRef("r", "Rational")
-        });
 
-        rational.method("sub", &Rational::operator-=, {
-            Php::ByRef("r", "Rational")
+        // register the increment method, and specify its parameters
+        rational.method("__construct", &PhpRational::__construct,  { 
+            Php::ByVal("numerator", Php::Type::Numeric, true),
+            Php::ByVal("denominator", Php::Type::Numeric, false)
         });
-
-        rational.method("mul", &Rational::operator*=, {
-            Php::ByRef("r", "Rational")
+        // register the add method, and specify its parameters
+        rational.method("__toString", &PhpRational::__toString, {});
+        // register the echo method, and specify its parameters
+        rational.method("print", &PhpRational::print, {});
+        // register the add method, and specify its parameters
+        rational.method("add", &PhpRational::operator+=, {
+            Php::ByRef("rhs", "Rational", true)
         });
-
-        rational.method("div", &Rational::operator/=, {
-            Php::ByRef("r", "Rational")
+        // register the add method, and specify its parameters
+        rational.method("sub", &PhpRational::operator-=, {
+            Php::ByRef("rhs", "Rational", true)
         });
-*/
-        static Php::Extension extension("rational", "1.0");
-        extension.add(std::move(rational));
+        // register the add method, and specify its parameters
+        rational.method("mul", &PhpRational::operator*=, {
+            Php::ByRef("rhs", "Rational", true)
+        });
+        // register the add method, and specify its parameters
+        rational.method("div", &PhpRational::operator/=, {
+            Php::ByRef("rhs", "Rational", true)
+        });
+        // add the class to the extension
+        myExtension.add(std::move(rational));
 
-        return extension;
+        // return the extension
+        return myExtension;
     }
 }

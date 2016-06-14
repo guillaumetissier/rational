@@ -99,6 +99,7 @@ LINKER_DEPENDENCIES =   -lphpcpp
 RM                  =   rm -f
 CP                  =   cp -f
 MKDIR               =   mkdir -p
+ENABLE_MODULE		=	php5enmod
 
 #
 #   All source files are simply all *.cpp files found in the current directory
@@ -129,6 +130,7 @@ ${OBJECTS}:	$(OBJ_DIR)%.o:	$(SRC_DIR)%.cpp
 install:
 					${CP} ${EXTENSION} ${EXTENSION_DIR}
 					${CP} ${INI} ${INI_DIR}
+					${ENABLE_MODULE} ${NAME}
 
 clean:
 					${RM} ${EXTENSION} ${OBJECTS}

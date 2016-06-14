@@ -47,6 +47,6 @@ Rational& operator- (const Rational& __r1, const Rational& __r2);
 Rational& operator* (const Rational& __r1, const Rational& __r2);
 Rational& operator/ (const Rational& __r1, const Rational& __r2);
 
-std::istream& operator>> (std::istream& __is, Rational& __r);
+std::ostream& operator<< (std::ostream& __os, Rational& __r);
 
 #endif
