@@ -18,28 +18,28 @@ extern "C" {
         Php::Class<PhpRational> rational("Rational");
 
         // register the increment method, and specify its parameters
-        rational.method("__construct", &PhpRational::__construct,  { 
+        rational.method<&PhpRational::__construct>("__construct", {
             Php::ByVal("numerator", Php::Type::Numeric, true),
             Php::ByVal("denominator", Php::Type::Numeric, false)
         });
         // register the add method, and specify its parameters
-        rational.method("__toString", &PhpRational::__toString, {});
+        rational.method<&PhpRational::__toString>("__toString", {});
         // register the echo method, and specify its parameters
-        rational.method("print", &PhpRational::print, {});
+        rational.method<&PhpRational::print>("print", {});
         // register the add method, and specify its parameters
-        rational.method("add", &PhpRational::operator+=, {
+        rational.method<&PhpRational::operator+=>("add", {
             Php::ByRef("rhs", "Rational", true)
         });
         // register the add method, and specify its parameters
-        rational.method("sub", &PhpRational::operator-=, {
+        rational.method<&PhpRational::operator-=>("sub", {
             Php::ByRef("rhs", "Rational", true)
         });
         // register the add method, and specify its parameters
-        rational.method("mul", &PhpRational::operator*=, {
+        rational.method<&PhpRational::operator*=>("mul", {
             Php::ByRef("rhs", "Rational", true)
         });
         // register the add method, and specify its parameters
-        rational.method("div", &PhpRational::operator/=, {
+        rational.method<&PhpRational::operator/=>("div", {
             Php::ByRef("rhs", "Rational", true)
         });
         // add the class to the extension

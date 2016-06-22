@@ -100,6 +100,7 @@ RM                  =   rm -f
 CP                  =   cp -f
 MKDIR               =   mkdir -p
 ENABLE_MODULE		=	php5enmod
+RESTART_WEBSERVER	=	apachectl restart
 
 #
 #   All source files are simply all *.cpp files found in the current directory
@@ -131,6 +132,17 @@ install:
 					${CP} ${EXTENSION} ${EXTENSION_DIR}
 					${CP} ${INI} ${INI_DIR}
 					${ENABLE_MODULE} ${NAME}
+
+#
+# INSTALL FOR MAC
+# !!! watch out !!!
+# need to add the following line :
+# extension=rational.so
+# in file /etc/php.ini
+#
+mac-install:
+					${CP} ${EXTENSION} ${EXTENSION_DIR}
+					${RESTART_WEBSERVER}
 
 clean:
 					${RM} ${EXTENSION} ${OBJECTS}
